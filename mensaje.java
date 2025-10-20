@@ -5,6 +5,7 @@ public class mensaje {
     int id;
     boolean spam = false;
     String contenido;
+    int contador;
 
     public mensaje(int id_cliente_emisor,int n_mensaje) {
 
@@ -29,6 +30,14 @@ public class mensaje {
 
         contenido = "texto";
 
+    }
+
+    public void set_contador(int tiempo) {
+        contador = tiempo;
+    }
+
+    public void disminuir_contador(){
+        contador -= 1;
     }
     
 }
