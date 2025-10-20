@@ -12,6 +12,14 @@ public class cuarentena {
         buzon_entrada = buzon_ent;
     }
 
+    public void consumir_buzon(){
+        boolean continuar = true;
+        while (continuar){
+            mensaje msm = buzon_entrada.queue.poll();
+            continuar = consumir(msm);
+        }
+    }
+
     public boolean consumir(mensaje msm) { //esto debe ser cada segundo cuando se llama 
         try {
             Thread.sleep(1000);
@@ -41,6 +49,7 @@ public class cuarentena {
                 lista_retorno.add(lista_msm.remove());
             }
         }
+        llenar_buzon();
     }
 
     public void llenar_buzon(){

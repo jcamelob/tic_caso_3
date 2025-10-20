@@ -10,7 +10,7 @@ public class filtro {
     }
 
     public void filtrar(buzon buzon_cuarentena, buzon buzon_entrega){
-        mensaje msm = buzon.get_msm();
+        mensaje msm = buzon_entrada.get_msm();
 
         if (msm.contenido == "inicio"){
             n_clientes += 1;

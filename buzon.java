@@ -3,7 +3,7 @@ import java.util.Queue;
 
 public class buzon {
 
-    static Queue<mensaje> queue;
+    Queue<mensaje> queue;
     int len_max = 9999;
     int queueLength;
     
@@ -31,7 +31,7 @@ public class buzon {
 
     }
 
-    public static mensaje get_msm(){
+    public mensaje get_msm(){
         return queue.poll();
     }
 

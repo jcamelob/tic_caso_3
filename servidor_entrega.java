@@ -10,6 +10,14 @@ public class servidor_entrega {
         buzon_entrada = buzon_ent;
     }
 
+    public void consumir_buzon(){
+        boolean continuar = true;
+        while (continuar){
+            mensaje msm = buzon_entrada.queue.poll();
+            continuar = consumir(msm);
+        }
+    }
+
     public boolean consumir(mensaje msm) {
         if (msm.contenido != "fin") {
         Random random = new Random();
