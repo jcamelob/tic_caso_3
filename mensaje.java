@@ -2,42 +2,81 @@ import java.util.Random;
 
 public class mensaje {
 
-    int id;
-    boolean spam = false;
-    String contenido;
-    int contador;
+    private int id;
+    private boolean spam = false;
+    private boolean startEmisor = false;
+    private boolean finEmisor = false;
+    private boolean finFiltro = false;
+    private String contenido;
+    private int tiempoCuarentena = 0;
 
+    //mensajes normales
     public mensaje(int id_cliente_emisor,int n_mensaje) {
 
         Random random = new Random();
-        if (random.nextInt(3)==3){
+        if (random.nextInt(4)==3){
             spam = true;
         }
 
-        id = Integer.parseInt(Integer.toString(id_cliente_emisor)+Integer.toString(n_mensaje));
+        this.id = Integer.parseInt(Integer.toString(id_cliente_emisor)+Integer.toString(n_mensaje));
 
-        contenido = "texto";
+        this.contenido = "Mensaje "+ Integer.toString(id);
 
     }
 
-    public mensaje(boolean inicio) {
+    //Mensajes de inicio y fin usados por los clientes emisores
+    public mensaje(boolean inicio, int id_cliente_emisor) {
 
         if (inicio){
-            contenido = "inicio";
+            this.startEmisor = true;
+            this.contenido = "Mensaje de inicio del emisor " + Integer.toString(id_cliente_emisor);
         } else {
-            contenido = "fin";
+            this.finEmisor = true;
+            this.contenido = "Mensaje de fin del emisor " + Integer.toString(id_cliente_emisor);
         }
-
-        contenido = "texto";
-
     }
 
-    public void set_contador(int tiempo) {
-        contador = tiempo;
+    //Mensajes de fin usados por los filtros
+    public mensaje() {
+        this.finFiltro = true;
+        this.contenido = "Mensaje de fin de filtros";
     }
+
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public boolean isSpam() {
+        return spam;
+    }
+
+    public boolean isInicioEmisor() {
+        return startEmisor;
+    }
+
+    public boolean isFinEmisor() {
+        return finEmisor;
+    }
+
+    public boolean isFinFiltro() {
+        return finFiltro;
+    }
+
+    public void setTiempoCuarentena(int tiempo) {
+        this.tiempoCuarentena = tiempo;
+    }
+
+
+    /*
+
+    
 
     public void disminuir_contador(){
         contador -= 1;
     }
+
+     */
+    
     
 }

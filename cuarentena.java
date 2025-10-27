@@ -1,17 +1,16 @@
-import java.util.LinkedList;
-import java.util.Random;
 
-public class cuarentena {
+public class cuarentena extends Thread {
 
-    buzon buzon_entrada;
-    buzon buzon_salida;
-    LinkedList<mensaje> lista_msm;
-    LinkedList<mensaje> lista_retorno;
+    private buzon buzon_spam;
+    private buzon buzon_entrega;
 
-    public cuarentena(buzon buzon_ent) {
-        buzon_entrada = buzon_ent;
+    public cuarentena(buzon buzon_spam, buzon buzon_entrega) {
+        super("Manjeador de cuarentena");
+        this.buzon_spam = buzon_spam;
+        this.buzon_entrega = buzon_entrega;
     }
 
+    /* 
     public void consumir_buzon(){
         boolean continuar = true;
         while (continuar){
@@ -69,6 +68,8 @@ public class cuarentena {
             }
         }
     }
+
+    */
 
     
 }
