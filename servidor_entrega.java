@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import java.util.Random;
 
 public class servidor_entrega {
 
@@ -9,6 +8,7 @@ public class servidor_entrega {
     public servidor_entrega(buzon buzon_ent) {
         buzon_entrada = buzon_ent;
     }
+    /* 
 
     public void consumir_buzon(){
         boolean continuar = true;
@@ -31,6 +31,8 @@ public class servidor_entrega {
         }
         return false; //retorna falso si debe acabar
     }
+
+    */
 
     
 }

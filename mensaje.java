@@ -9,11 +9,12 @@ public class mensaje {
     private boolean finFiltro = false;
     private String contenido;
     private int tiempoCuarentena = 0;
+    private Random random = new Random();
+    
 
     //mensajes normales
     public mensaje(int id_cliente_emisor,int n_mensaje) {
-
-        Random random = new Random();
+        
         if (random.nextInt(4)==3){
             spam = true;
         }
@@ -67,16 +68,14 @@ public class mensaje {
         this.tiempoCuarentena = tiempo;
     }
 
-
-    /*
-
-    
-
     public void disminuir_contador(){
-        contador -= 1;
+        this.tiempoCuarentena -= 1;
     }
 
-     */
+    public int getTiempoCuarentena(){
+        return tiempoCuarentena;
+    }
+
     
     
 }
