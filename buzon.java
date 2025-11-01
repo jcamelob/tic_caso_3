@@ -67,34 +67,58 @@ public class buzon {
         return msj;
     }
 
-    //Interacciones con el Buzón de cuarentena
+    //Interacciones con el Buzón de cuarentena: Espera semi-activa
     //Como tiene capacidad ilimitada, nunca es necesario esperar que haya espacio
     public synchronized void add_Spam(Thread thread, mensaje msj) {
-        /*
+        /*        
         queue.add(msj);
         System.out.println("[" + thread.getName() + "]: guardó en buzón de spam el " + msj.getContenido());
-        notify();
+        notifyAll();
          */
+
     }
     
     public synchronized mensaje get_Spam(Thread thread){
-        //TODO
+        /*
+        mensaje msj = queue.poll();
+        if (msj != null) {
+            System.out.println("[" + thread.getName() + "]: agarró del buzón de cuarentena el " + msj.getContenido());
+            notifyAll();
+        }
+        return msj;
+         */
         return null;
     }
 
-    //Interacciones con el buzón de entrega
+    //Interacciones con el buzón de entrega: Espera semi-activa
     public synchronized void add_NoSpam(Thread thread, mensaje msj) {
-        //TODO
+        while (queue.size() >= len_max) {
+            //System.out.println("[" + thread.getName() + "]: cede su turno porque el búzon de entrega está lleno");
+            Thread.yield();
+        }
+
+        queue.add(msj);
+        System.out.println("[" + thread.getName() + "]: guardó en buzón de entrega el " + msj.getContenido());
+        notifyAll();
     }
+
     public synchronized mensaje get_NoSpam(Thread thread){
-        //TODO
-        return null;
+        mensaje msj = queue.poll();
+        if (msj != null) {
+            System.out.println("[" + thread.getName() + "]: agarró del buzón de entrega el " + msj.getContenido());
+            notify();
+        }
+        return msj;
     }
 
     //metodos utiles
 
     public synchronized boolean isEmpty() {
         return queue.isEmpty();
+    }
+
+    public synchronized boolean isCerrado() {
+        return cerrado;
     }
 
     public synchronized void cerrar() {

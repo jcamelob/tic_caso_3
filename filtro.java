@@ -75,6 +75,7 @@ public class filtro extends Thread{
                     System.out.println("[" + getName() + "]: envió " + fin_entrega.getContenido() + " a buzón de cuarentena ");
 
                     buzon_entrada.cerrar();
+                    //buzon_spam.cerrar();
                 }
 
                 // condición de parada del filtro

@@ -1,38 +1,42 @@
-import java.util.LinkedList;
+import java.util.Random;
 
-public class servidor_entrega {
+public class servidor_entrega extends Thread {
+    
+    private final int id; 
+    private final buzon buzonEntrega;
+    private final Random random = new Random();
 
-    buzon buzon_entrada;
-    LinkedList<mensaje> lista_msm;
 
-    public servidor_entrega(buzon buzon_ent) {
-        buzon_entrada = buzon_ent;
+    public servidor_entrega(buzon buzon_entrega, int id_servidor_entrega) {
+        super("Servidor de entrega "+ id_servidor_entrega);
+        this.id = id_servidor_entrega;
+        this.buzonEntrega = buzon_entrega;
     }
-    /* 
 
-    public void consumir_buzon(){
-        boolean continuar = true;
-        while (continuar){
-            mensaje msm = buzon_entrada.queue.poll();
-            continuar = consumir(msm);
+    @Override
+    public void run(){
+        System.out.println("[" + this.getName()+"]: Inicializado");
+        while (!buzonEntrega.isCerrado()) {
+            mensaje msj = buzonEntrega.get_NoSpam(this);
+            if (msj != null){
+                process(msj);
+            }
         }
+        System.out.println("[" + this.getName()+"]: Finalizado");
     }
 
-    public boolean consumir(mensaje msm) {
-        if (msm.contenido != "fin") {
-        Random random = new Random();
+    private void process(mensaje msj){
         try {
-            Thread.sleep(random.nextInt(990) + 10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.sleep(random.nextInt(2000)+1000);
+            System.out.println("[" + this.getName() + "]: procesó el " + msj.getContenido());
+        } catch (InterruptedException  e) {
+            Thread.currentThread().interrupt();
         }
-        lista_msm.add(msm);
-        return true;
+
+        //Validar si era mensaje de FIN 
+        if (msj.isFinFiltro()){
+            buzonEntrega.cerrar();
         }
-        return false; //retorna falso si debe acabar
     }
-
-    */
-
     
 }

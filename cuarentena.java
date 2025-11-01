@@ -1,13 +1,70 @@
+import java.util.Random;
 
 public class cuarentena extends Thread {
 
     private buzon buzon_spam;
     private buzon buzon_entrega;
+    private Random random = new Random();
 
     public cuarentena(buzon buzon_spam, buzon buzon_entrega) {
         super("Manjeador de cuarentena");
         this.buzon_spam = buzon_spam;
         this.buzon_entrega = buzon_entrega;
+    }
+
+    @Override
+    public void run() {
+        /* 
+        while (true) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+
+            mensaje msj = buzon_spam.get_Spam(this);
+            
+            if (msj == null) {
+                System.out.println("[" + this.getName() + "]: cede su turno porque el buzón de spam está vacío");
+                Thread.yield();
+                continue;
+            }
+
+            System.out.println("[" + getName() + "]: se comienza a procesar el " + msj.getContenido());
+
+            if (msj.isFinFiltro()) {
+                System.out.println("[" + getName() + "]: mensaje de fin de filtro recibido. ");
+                Thread.yield();
+                break;
+            }
+
+            int descartar = random.nextInt(4);
+            if (descartar % 7 == 0) {
+                System.out.println("[" + getName() + "]: se descarta el " + msj.getContenido() + " pues se detectó que era malicioso");
+                Thread.yield();
+                continue;
+            }
+            
+            // Decrementa contador de tiempo
+            msj.disminuir_contador();
+
+            if (msj.getTiempoCuarentena() <= 0) {
+                // Si el contador llega a 0 se mueve al buzón de entrega 
+                buzon_entrega.add_NoSpam(this, msj);
+                System.out.println("[" + getName() + "]: se mueve al buzón de entrega el " + msj.getContenido());
+            } else {
+                // Si aún tiene tiempo se reinserta al final del buzón de spam
+                buzon_spam.add_Spam(this, msj);
+                System.out.println("[" + getName() + "]: se mueve al buzón de spam el " + msj.getContenido() + ". Tiempo restante de cuarentena: " + msj.getTiempoCuarentena());
+            }
+
+            Thread.yield();
+
+        }
+        */
+        System.out.println("[" + this.getName() + "]: finalizado");
     }
 
     /* 
