@@ -5,9 +5,9 @@ class Filter extends Thread {
     private static int totalToConsume;
     private static int consumedCount = 0;
     private Buffer buffer;
-    private Buffer entrega;
+    private Entrega entrega;
 
-    public Filter(String name, Buffer buffer, Buffer entrega) {
+    public Filter(String name, Buffer buffer, Entrega entrega) {
         super(name);
         this.buffer = buffer;
         this.entrega = entrega;
@@ -20,13 +20,14 @@ class Filter extends Thread {
                 if (consumedCount >= totalToConsume) break;
             }
             Item item = buffer.get(this);
-        if (item.getName().equals("FIN")) {
-            entrega.put(this, item); // reenvía el fin a los consumidores
-            break;
+            if (item.getName().equals("FIN")) {
+                entrega.put(this, item); // reenvía el fin a los consumidores
+                break;
+            }
+            entrega.put(this, item);
         }
-        entrega.put(this, item);
-    }
-    System.out.println("[" + this.getName() + "]: finalizado");
+        System.out.println("[" + this.getName() + "]: finalizado");
+        //buffer.esperar_final();
     }
 
     public static void setTotalToConsume(int total) {

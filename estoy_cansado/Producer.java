@@ -20,6 +20,7 @@ public void run() {
         buffer.put(this, item);
     }
     System.out.println("[" + this.getName() + "]: finalizado");
+    //buffer.put(this, new Item("FIN"));
 }
 
 private Item produce() {

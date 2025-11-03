@@ -5,21 +5,21 @@ public class Main2 {
     public static void main(String[] args) {
         System.out.println("=== INICIO DEL PROGRAMA PRODUCTOR-CONSUMIDOR ===\n");
         
-        int N = 3;
-        int M = 2;
+        int N = 2;
+        int n_servidores_entrega = 2;
         int F = 2;
         int bufferCapacity = 2;
         int totalItems = 5;
         
         System.out.println("Configuración:");
         System.out.println("- Productores: " + N);
-        System.out.println("- Consumidores: " + M);
+        System.out.println("- Consumidores: " + n_servidores_entrega);
         System.out.println("- Capacidad del búfer: " + bufferCapacity);
         System.out.println("- Total de ítems a producir y consumir: " + totalItems);
         System.out.println();
         
-        Buffer buffer = new Buffer(bufferCapacity);
-        Buffer entrega = new Buffer(bufferCapacity);
+        Buffer buffer = new Buffer(bufferCapacity,F);
+        Entrega entrega = new Entrega(bufferCapacity,n_servidores_entrega);
         
         Producer.setTotalToProduce(totalItems);
         Producer[] producers = new Producer[N];
@@ -28,16 +28,16 @@ public class Main2 {
             producers[i].start();
         }
 
-        Filter.setTotalToConsume(totalItems);
+        Filter.setTotalToConsume(totalItems+1);
         Filter[] filters = new Filter[F];
         for (int i = 0; i < F; i++) {
             filters[i] = new Filter("Filtro " + (i+1), buffer, entrega);
             filters[i].start();
         }
         
-        Consumer.setTotalToConsume(totalItems);
-        Consumer[] consumers = new Consumer[M];
-        for (int i = 0; i < M; i++) {
+        Consumer.setTotalToConsume(totalItems+1);
+        Consumer[] consumers = new Consumer[n_servidores_entrega];
+        for (int i = 0; i < n_servidores_entrega; i++) {
             consumers[i] = new Consumer("Consumidor " + (i+1), entrega);
             consumers[i].start();
         }
@@ -50,9 +50,11 @@ public class Main2 {
             }
         }
         
+        
         for (int i = 0; i < F; i++) {
             buffer.put(Thread.currentThread(), new Item("FIN"));
         }
+        
 
         for (Filter filter : filters) {
             try {
@@ -62,10 +64,11 @@ public class Main2 {
             }
         }
 
-        for (int i = 0; i < M; i++) {
+        /*
+        for (int i = 0; i < n_servidores_entrega; i++) {
             entrega.put(Thread.currentThread(), new Item("FIN"));
         }
-
+        */
 
         for (Consumer consumer : consumers) {
             try {

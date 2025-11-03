@@ -6,10 +6,10 @@ class Consumer extends Thread {
 
     private static int totalToConsume;
     private static int consumedCount = 0;
-    private Buffer buffer;
+    private Entrega buffer;
     private Random random;
 
-    public Consumer(String name, Buffer buffer) {
+    public Consumer(String name, Entrega buffer) {
         super(name);
         this.buffer = buffer;
         this.random = new Random();
@@ -18,18 +18,20 @@ class Consumer extends Thread {
     @Override
     public void run() {
         while (true) {
-            synchronized (Consumer.class) {
-                if (consumedCount >= totalToConsume) break;
-            }
             Item item = buffer.get(this);
-            if (item.getName().equals("FIN")) break;
+
+            if (item.getName().equals("FIN")) {
+                System.out.println("[" + this.getName() + "]: recibió FIN y termina.");
+                // Importante: reenviar FIN para que otros consumidores también paren
+                buffer.put(this, item);
+                break;
+            }
+
             process(item);
-            synchronized (Consumer.class) {
-                consumedCount++;
         }
-    }
     System.out.println("[" + this.getName() + "]: finalizado");
     }
+
 
     private void process(Item item) {
         try {
