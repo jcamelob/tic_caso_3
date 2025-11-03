@@ -16,7 +16,14 @@ public class servidor_entrega extends Thread {
     @Override
     public void run(){
         System.out.println("[" + this.getName()+"]: Inicializado");
-        while (!buzonEntrega.isCerrado()) {
+        while (!buzonEntrega.isCerrado()) { //aca
+            while (buzonEntrega.queue_is_empty()){
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             mensaje msj = buzonEntrega.get_NoSpam(this);
             if (msj != null){
                 process(msj);

@@ -60,7 +60,7 @@ public class filtro extends Thread{
                 boolean todos_finalizaron = (n_fin == n_clientes);
                 boolean entradas_vacias = buzon_entrada.isEmpty() && buzon_spam.isEmpty();
 
-                if (todos_finalizaron && entradas_vacias && !fin_entrega_enviado && !fin_cuarentena_enviado) {
+                if (todos_finalizaron && entradas_vacias && !fin_entrega_enviado && !fin_cuarentena_enviado) { ////entradas_vacias !fin_cuarentena_enviado
                     fin_entrega_enviado = true;
                     fin_cuarentena_enviado = true;
                     mensaje fin_entrega = new mensaje();

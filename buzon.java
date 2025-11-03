@@ -126,5 +126,9 @@ public class buzon {
         notifyAll(); // despierta a todos los hilos bloqueados
     }
 
+    public synchronized boolean queue_is_empty(){
+        return this.queue.isEmpty();
+    }
+
 
 }
