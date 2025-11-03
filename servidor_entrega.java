@@ -19,7 +19,7 @@ public class servidor_entrega extends Thread {
         while (!buzonEntrega.isCerrado()) { //aca
             while (buzonEntrega.queue_is_empty()){
                 try {
-                    Thread.sleep(20);
+                    this.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

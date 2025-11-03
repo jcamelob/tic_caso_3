@@ -80,6 +80,7 @@ public class filtro extends Thread{
 
                 // condición de parada del filtro
                 if (todos_finalizaron && fin_entrega_enviado && fin_cuarentena_enviado) {
+                    System.out.println("[" + getName() + "]: finalizó su ejecución");
                     break;
                 }
             }

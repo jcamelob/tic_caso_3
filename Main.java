@@ -22,11 +22,11 @@ public class Main {
   public static void creacion_instancias() {
 
     int n_clientes_emisores = 2;
-    int n_mensajes = 5;
+    int n_mensajes = 3;
     int n_filtros = 2;
     int n_servidores_entrega = 2;
     int capacidad_buzon_entrada = 4; //revisar que si sea n y no n+1
-    int capacidad_buzon_entrega = 10;
+    int capacidad_buzon_entrega = 4;
 
     buzon_entrada = new buzon(capacidad_buzon_entrada);
     buzon_cuarentena = new buzon();
