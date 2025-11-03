@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class filtro extends Thread{
 
@@ -9,8 +10,8 @@ public class filtro extends Thread{
     private Random random = new Random();
 
 
-    private static int n_clientes = 0;
-    private static int n_fin = 0;
+    private static final AtomicInteger n_clientes = new AtomicInteger(0);
+    private static final AtomicInteger n_fin = new AtomicInteger(0);
     private static boolean fin_entrega_enviado = false;
     private static boolean fin_cuarentena_enviado = false;
 
@@ -40,13 +41,9 @@ public class filtro extends Thread{
             if(!msj.isSpam()){
 
                 if(msj.isInicioEmisor()){
-                    synchronized (filtro.class) {
-                    n_clientes++;
-                    }
+                    n_clientes.incrementAndGet();
                 } else if (msj.isFinEmisor()) {
-                    synchronized (filtro.class) {
-                    n_fin++;
-                    }
+                    n_fin.incrementAndGet();
                 }   
                 buzon_entrega.add_NoSpam(this, msj);
             }else {
@@ -55,35 +52,27 @@ public class filtro extends Thread{
                 buzon_spam.add_Spam(this, msj);
             }
 
-            // Verificar si se deben enviar mensajes de fin globales/terminar ejecucion del thread
+            boolean todos_finalizaron = (n_fin.get() == n_clientes.get());
+            
+            boolean cerrar = false;
             synchronized (filtro.class) {
-                boolean todos_finalizaron = (n_fin == n_clientes);
-                boolean entradas_vacias = buzon_entrada.isEmpty() && buzon_spam.isEmpty();
-
-                if (todos_finalizaron && entradas_vacias && !fin_entrega_enviado && !fin_cuarentena_enviado) { ////entradas_vacias !fin_cuarentena_enviado
+                if (todos_finalizaron && !fin_entrega_enviado) {
                     fin_entrega_enviado = true;
                     fin_cuarentena_enviado = true;
+
                     mensaje fin_entrega = new mensaje();
                     mensaje fin_cuarentena = new mensaje();
 
-                    //Envía mensaje de fin a entrega
                     buzon_entrega.add_NoSpam(this, fin_entrega);
-                    System.out.println("[" + getName() + "]: envió " + fin_entrega.getContenido() + " a buzón de entrega ");
                     buzon_spam.add_Spam(this, fin_cuarentena);
-
-                    //Envía mensaje de fin a cuarentena
-                    System.out.println("[" + getName() + "]: envió " + fin_entrega.getContenido() + " a buzón de cuarentena ");
-
-                    buzon_entrada.cerrar();
-                    //buzon_spam.cerrar();
-                }
-
-                // condición de parada del filtro
-                if (todos_finalizaron && fin_entrega_enviado && fin_cuarentena_enviado) {
-                    System.out.println("[" + getName() + "]: finalizó su ejecución");
-                    break;
+                    System.out.println("[" + getName() + "]: envió FIN a entrega y cuarentena");
+                    cerrar = true;
                 }
             }
+            if (cerrar) {
+                buzon_entrada.cerrar();
+}
+
             
         }
         System.out.println("[" + getName() + "]: Finalizado.");

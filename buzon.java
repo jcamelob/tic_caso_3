@@ -33,7 +33,7 @@ public class buzon {
         }
         
         queue.add(msj);
-        notifyAll();
+        notifyAll(); //revisar
         System.out.println("[" + thread.getName() + "]: guardó en el búfer de entrada el " + msj.getContenido());
     }
 
@@ -62,7 +62,7 @@ public class buzon {
         mensaje msj = queue.poll();
         if (msj != null) {
             System.out.println("[" + thread.getName() + "]: agarró del buzón de entrada el " + msj.getContenido());
-            notifyAll();
+            notifyAll(); //revisar
         }
         return msj;
     }
