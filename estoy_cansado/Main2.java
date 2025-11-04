@@ -5,11 +5,11 @@ public class Main2 {
     public static void main(String[] args) {
         System.out.println("=== INICIO DEL PROGRAMA PRODUCTOR-CONSUMIDOR ===\n");
         
-        int n_emisores = 2;
-        int n_servidores_entrega = 2;
-        int n_filtros = 2;
+        int n_emisores = 3;
+        int n_servidores_entrega = 1;
+        int n_filtros = 3;
         int bufferCapacity = 2;
-        int totalItems = 5;
+        int totalItems = 2;
         
         System.out.println("Configuración:");
         System.out.println("- Productores: " + n_emisores);
@@ -22,10 +22,10 @@ public class Main2 {
         Entrega entrega = new Entrega(bufferCapacity,n_servidores_entrega);
         Cuarentena cuarentena = new Cuarentena();
         
-        Producer.setTotalToProduce(totalItems);
+
         Producer[] producers = new Producer[n_emisores];
         for (int i = 0; i < n_emisores; i++) {
-            producers[i] = new Producer("Productor " + (i+1), buffer);
+            producers[i] = new Producer("Productor " + (i+1), buffer, totalItems);
             producers[i].start();
         }
 

@@ -1,13 +1,14 @@
 package estoy_cansado;
 public class Producer extends Thread {
 
-private static int totalToProduce;
-private static int producedCount = 0;
+private int totalToProduce;
+private int producedCount = 0;
 private Buffer buffer;
 
-public Producer(String name, Buffer buffer) {
+public Producer(String name, Buffer buffer, int totalToProduce) {
     super(name);
     this.buffer = buffer;
+    this.totalToProduce = totalToProduce;
 }
 
 @Override
@@ -40,7 +41,7 @@ private Item produce() {
     return null;
 }
 
-public static void setTotalToProduce(int total) {
-    totalToProduce = total;
+public void setTotalToProduce(int total) {
+    this.totalToProduce = total;
 }
 }

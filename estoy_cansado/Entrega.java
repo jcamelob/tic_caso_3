@@ -17,15 +17,6 @@ public class Entrega {
     }
 
     public synchronized void put(Thread thread, Item item) {
-        while (queue.size() >= capacity) {
-            try {
-                System.out.println("[" + thread.getName() + "]: espera porque el buzón de entrega está lleno");
-                wait();
-                System.out.println("[" + thread.getName() + "]: despertó porque hay espacio en el buzón de entrega");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
         queue.add(item);
         System.out.println("[" + thread.getName() + "]: guardó en el buzón de entrega el " + item.getName());
         notifyAll();
@@ -55,5 +46,8 @@ public class Entrega {
     return null;
     }
 
+    public synchronized int get_size(){
+    return queue.size();
+    }
 
 }

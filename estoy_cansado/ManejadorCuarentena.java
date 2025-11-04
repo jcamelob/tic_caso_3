@@ -53,14 +53,19 @@ class ManejadorCuarentena extends Thread {
             if (!destruir){
 
                 if (item.getTiempoCuarentena() == 0){
-                entrega.put(this, item);
-                System.out.println("[" + getName() + "]: se mueve al buzón de entrega el " + item.getName());
+                    if (entrega.get_size() != 0){
+                        entrega.put(this, item);
+                        System.out.println("[" + getName() + "]: se mueve al buzón de entrega el " + item.getName());
+                    }
                 
                 }
                 else {
                     cuarentena.put(this, item);
                     System.out.println("[" + getName() + "]: se mueve al buzón de spam el " + item.getName() + ". Tiempo restante de cuarentena: " + item.getTiempoCuarentena());
                 }
+
+                Thread.yield(); //ojala
+
             }else{
                 System.out.println("[" + getName() + "]: se descarta el " + item.getName() + " pues se detectó que era malicioso");
 
