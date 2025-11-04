@@ -12,10 +12,10 @@ public class Item {
     public Item(String name) {
         this.name = name;
 
-        int random_n = random.nextInt(2); //Cambiar probabilidades
+        int random_n = random.nextInt(3)+1; //Cambiar probabilidades
 
-        if (random_n==0){
-            if (!name.equals("FIN")){
+        if (random_n==3){
+            if (!name.equals("FIN") && !name.equals("INICIO")){
                 this.spam = true;
 
             }

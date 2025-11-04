@@ -56,6 +56,7 @@ class Filter extends Thread {
                 entrega.put(this, new Item("FINFILTRO"));
             }
         }
+        System.out.println("["+this.getName()+"]: Ha finalizado");
     }
 
     public static void setTotalToConsume(int total) {

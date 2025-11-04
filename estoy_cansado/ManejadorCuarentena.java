@@ -32,6 +32,8 @@ class ManejadorCuarentena extends Thread {
             }
 
             Item item = cuarentena.get(this);
+
+            if (item != null) {
             
             if (item.getName().equals("FINFILTRO")) {
                 if (cuarentena.get_len() == 0){
@@ -46,6 +48,7 @@ class ManejadorCuarentena extends Thread {
             }
             
             procesar(item);
+
 
             if (!destruir){
 
@@ -62,7 +65,9 @@ class ManejadorCuarentena extends Thread {
                 System.out.println("[" + getName() + "]: se descarta el " + item.getName() + " pues se detectó que era malicioso");
 
             }
+            }
             
+            Thread.yield(); //cambio semi activo
             
         }
         System.out.println("[" + this.getName() + "]: finalizado");

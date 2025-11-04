@@ -12,6 +12,7 @@ public Producer(String name, Buffer buffer) {
 
 @Override
 public void run() {
+    buffer.put(this, new Item("INICIO"));
     while (true) {
         Item item = produce();
         if (item == null) {

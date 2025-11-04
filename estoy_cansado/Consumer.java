@@ -19,7 +19,12 @@ class Consumer extends Thread {
     @Override
     public void run() {
         while (!terminado) {
-            Item item = buffer.get(this);
+            Item item = null;
+            while (item == null && !terminado){
+            item = buffer.get(this);
+            }
+
+            if (terminado) {break;}
 
             if (item.getName().equals("FINFILTRO")) {
                 System.out.println("[" + this.getName() + "]: recibió mensaje de fin del filtro y termina.");

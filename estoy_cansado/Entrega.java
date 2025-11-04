@@ -32,6 +32,7 @@ public class Entrega {
     }
 
     public synchronized Item get(Thread thread) {
+        /*
         while (queue.isEmpty()) {
         try {
             System.out.println("[" + thread.getName() + "]: espera porque el buzón de entrega está vacío");
@@ -41,7 +42,9 @@ public class Entrega {
             Thread.currentThread().interrupt();
         }
     }
+        */
     Item item = queue.poll();
+    if (item != null){
     if (item.getName().equals("FIN")) {
         this.cerrado += 1;
     }
@@ -49,5 +52,8 @@ public class Entrega {
     notifyAll();
     return item;
     }
+    return null;
+    }
+
 
 }
