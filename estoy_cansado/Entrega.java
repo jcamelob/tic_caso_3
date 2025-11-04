@@ -50,15 +50,4 @@ public class Entrega {
     return item;
     }
 
-    public synchronized void esperar_final(){ //OJO revisar
-        while (this.cerrado < this.n_consumidores){
-            try {
-                Thread.sleep(20);
-                notifyAll();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 }

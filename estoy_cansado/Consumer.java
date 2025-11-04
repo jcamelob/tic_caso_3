@@ -8,6 +8,7 @@ class Consumer extends Thread {
     private static int consumedCount = 0;
     private Entrega buffer;
     private Random random;
+    private static boolean terminado = false;
 
     public Consumer(String name, Entrega buffer) {
         super(name);
@@ -17,13 +18,16 @@ class Consumer extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!terminado) {
             Item item = buffer.get(this);
 
-            if (item.getName().equals("FIN")) {
-                System.out.println("[" + this.getName() + "]: recibió FIN y termina.");
+            if (item.getName().equals("FINFILTRO")) {
+                System.out.println("[" + this.getName() + "]: recibió mensaje de fin del filtro y termina.");
                 // Importante: reenviar FIN para que otros consumidores también paren
-                buffer.put(this, item);
+                //buffer.put(this, item);
+                synchronized (Consumer.class){
+                    terminado = true;
+                }
                 break;
             }
 

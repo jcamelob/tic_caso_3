@@ -9,6 +9,7 @@ public class Buffer {
     private Queue<Item> queue;
     private int cerrado = 0;
     private int n_consumidores;
+    private boolean notify = false;
 
     public Buffer(int capacity, int n_consumidores) {
         this.capacity = capacity;
@@ -32,7 +33,7 @@ public class Buffer {
     }
 
     public synchronized Item get(Thread thread) {
-        while (queue.isEmpty()) {
+        while (queue.isEmpty() && !notify) {
         try {
             System.out.println("[" + thread.getName() + "]: espera porque el búfer está vacío");
             wait();
@@ -42,23 +43,20 @@ public class Buffer {
         }
     }
     Item item = queue.poll();
-    if (item.getName().equals("FIN")) {
-        this.cerrado += 1;
-    }
-    System.out.println("[" + thread.getName() + "]: agarró del búfer el " + item.getName());
-    notifyAll();
-    return item;
+    if (item != null){
+        if (item.getName().equals("FIN")) {
+            this.cerrado += 1;
+        }
+        System.out.println("[" + thread.getName() + "]: agarró del búfer el " + item.getName());
+        notifyAll();
+        return item;
+        }
+        return null;
     }
 
-    public synchronized void esperar_final(){ //OJO revisar
-        while (this.cerrado < this.n_consumidores){
-            try {
-                Thread.sleep(20);
-                notifyAll();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        public synchronized void despertar(){
+            this.notify = true;
+            notifyAll();
         }
 
-    }
 }
