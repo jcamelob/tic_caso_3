@@ -4,4 +4,5 @@ n_emisores
 n_servidores_entrega
 n_filtros
 bufferCapacity
+entregaCapacity
 totalItems

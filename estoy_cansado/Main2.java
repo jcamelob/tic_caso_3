@@ -13,6 +13,7 @@ public class Main2 {
         int n_servidores_entrega = 0;
         int n_filtros = 0;
         int bufferCapacity = 0;
+        int entregaCapacity = 0;
         int totalItems = 0;
 
         // === LECTURA DE PARÁMETROS DESDE ARCHIVO ===
@@ -23,6 +24,7 @@ public class Main2 {
             n_servidores_entrega = Integer.parseInt(br.readLine().trim());
             n_filtros = Integer.parseInt(br.readLine().trim());
             bufferCapacity = Integer.parseInt(br.readLine().trim());
+            entregaCapacity = Integer.parseInt(br.readLine().trim());
             totalItems = Integer.parseInt(br.readLine().trim());
         } catch (IOException | NumberFormatException e) {
             System.err.println("Error al leer el archivo de configuración: " + e.getMessage());
@@ -35,12 +37,13 @@ public class Main2 {
         System.out.println("- Consumidores: " + n_servidores_entrega);
         System.out.println("- Filtros: " + n_filtros);
         System.out.println("- Capacidad del búfer: " + bufferCapacity);
+        System.out.println("- Capacidad del entrega: " + entregaCapacity);
         System.out.println("- Total de ítems a producir y consumir: " + totalItems);
         System.out.println();
 
         // === CREACIÓN DE OBJETOS Y HILOS ===
         Buffer buffer = new Buffer(bufferCapacity, n_filtros);
-        Entrega entrega = new Entrega(bufferCapacity, n_servidores_entrega);
+        Entrega entrega = new Entrega(entregaCapacity, n_servidores_entrega);
         Cuarentena cuarentena = new Cuarentena();
 
         Producer[] producers = new Producer[n_emisores];
